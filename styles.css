@@ -11,8 +11,27 @@
     color: white !important; 
 }
 
+.content-box{
+    background-color: #f1f1f1 !important;
+}
+
+.new-content-section {
+    height: 300px; 
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
 .rotatingText { 
-    margin-top: -20%; 
+    margin-top: -12.5%; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -59,7 +78,6 @@
     }
 }
 
-/* Explicitly set the order of animations for each adjective */
 .rotatingText-adjective:nth-of-type(1) { 
     animation: rotate-text-up 1.5s 0.75s forwards; 
 }
@@ -72,7 +90,6 @@
     animation: fade-text-in 1.5s 3.25s forwards;
 }
   
-/* Animations */
 @keyframes rotate-text-up { 
     0% {
         transform: translate3d(0, 80px, 0);
