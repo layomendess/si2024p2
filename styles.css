@@ -4,6 +4,7 @@
 .sidebar-icons {
     font-size: 25px;
     color: black;
+    font-weight: bold;
 }
 
 .nav-link.active {
