@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BeautyNote - Calendário</title>
-    <link rel="stylesheet" href="styles.css" type="text/css">
-    <script src="https://apis.google.com/js/api.js"></script> <!-- API do Google -->
+    <link rel="stylesheet" href="calendar_style.css" type="text/css">
+    <script src="calendario.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 </head>
 <body class="d-flex" style="height: 100vh;">
-    <!-- Sidebar -->
     <div class="d-flex flex-column flex-shrink-0 bg-light vh-100" style="width: 4.5rem;">
         <a href="index.html" class="d-block p-3 link-dark text-decoration-none d-flex justify-content-center align-items-center" title="Icon-only">
             <img src="imgs/Butterfly-icon.png" alt="Butterfly" height="50px" width="50px">
@@ -22,23 +21,22 @@
                     <i class="bi bi-house sidebar-icons"></i>
                 </a>
             </li>
-            <li>
+            <li class="nav-item">
                 <a href="calendar.html" class="nav-link active py-3 border-bottom" title="Dashboard">
                     <i class="bi bi-calendar sidebar-icons"></i>
                 </a>
             </li>
-            <li>
+            <li class="nav-item">
                 <a href="cadastro_serviços.html" class="nav-link py-3 border-bottom" title="Cadastro">
                     <i class="bi bi-clipboard2-plus sidebar-icons"></i>
                 </a>
             </li>
-            <li>
-                <a href="cadastro_clientes.html" class="nav-link py-3 border-bottom" title="Cadastro" data-bs-toggle="tooltip"
-                    data-bs-placement="right" data-bs-original-title="Orders">
+            <li class="nav-item">
+                <a href="cadastro_clientes.html" class="nav-link py-3 border-bottom" title="Cadastro">
                     <i class="bi bi-person-plus sidebar-icons"></i>
                 </a>
             </li>
-            <li>
+            <li class="nav-item">
                 <a href="financeiro.html" class="nav-link py-3 border-bottom" title="Financeiro">
                     <i class="bi bi-graph-up sidebar-icons"></i>
                 </a>
@@ -48,68 +46,33 @@
 
     <div class="flex-grow-1 d-flex flex-column content-box">
         <section class="d-flex justify-content-center align-items-center p-4">
-            <h3>Próximos Eventos</h3>
-        </section>
-        <section class="new-content-section d-flex justify-content-center align-items-center">
-            <div class="content-box" id="calendar-events">
-                <!-- Aqui os eventos do Google Calendar serão listados -->
+            <div class="d-flex w-100">
+                <div class="flex-fill p-2 wrapper">
+                        <header>
+                          <p class="current-date"></p>
+                          <div class="icons">
+                            <span id="prev" class="material-symbols-rounded"><i class="bi bi-chevron-left"></i></span>
+                            <span id="next" class="material-symbols-rounded"><i class="bi bi-chevron-right"></i></span>
+                          </div>
+                        </header>
+                        <div class="calendar">
+                          <ul class="weeks">
+                            <li>Dom</li>
+                            <li>Seg</li>
+                            <li>Ter</li>
+                            <li>Qua</li>
+                            <li>Qui</li>
+                            <li>Sex</li>
+                            <li>Sab</li>
+                          </ul>
+                          <ul class="days"></ul>
+                      </div>
+                </div>
+                <div class="flex-fill p-2">
+                    <!-- Second half content -->
+                </div>
             </div>
         </section>
     </div>
-
-    <script>
-        function loadGoogleCalendarApi() {
-            gapi.load('client', initClient);
-        }
-
-        function initClient() {
-            gapi.client.init({
-                apiKey: 'AIzaSyC9AgK4k-p95kf2dOFb3IpyWoPcjSOEXas',  // Substitua pela sua API Key
-                discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
-            }).then(function () {
-                listUpcomingEvents();
-            }, function (error) {
-                console.error('Erro ao inicializar API do Google Calendar:', error);
-                document.getElementById('calendar-events').innerHTML = `<p>Erro ao inicializar a API do Google Calendar: ${error.message}</p>`;
-            });
-        }
-
-        function listUpcomingEvents() {
-            gapi.client.calendar.events.list({
-                'calendarId': 'alexbarrosjjjjjj@gmail.com',  // ID do calendário principal
-                'timeMin': (new Date()).toISOString(),
-                'showDeleted': false,
-                'singleEvents': true,
-                'maxResults': 10,
-                'orderBy': 'startTime'
-            }).then(function (response) {
-                var events = response.result.items;
-                var eventsList = document.getElementById('calendar-events');
-
-                if (events.length > 0) {
-                    eventsList.innerHTML = '<ul class="list-group">';
-                    for (var i = 0; i < events.length; i++) {
-                        var event = events[i];
-                        var when = event.start.dateTime || event.start.date;
-                        var eventItem = `
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span>${event.summary}</span>
-                                <span class="badge bg-primary rounded-pill">${new Date(when).toLocaleString()}</span>
-                            </li>
-                        `;
-                        eventsList.innerHTML += eventItem;
-                    }
-                    eventsList.innerHTML += '</ul>';
-                } else {
-                    eventsList.innerHTML = '<p>Nenhum evento futuro encontrado.</p>';
-                }
-            }, function (error) {
-                console.error('Erro ao carregar eventos do Google Calendar:', error);
-                document.getElementById('calendar-events').innerHTML = `<p>Erro ao carregar eventos: ${error.result.error.message}</p>`;
-            });
-        }
-
-        loadGoogleCalendarApi();
-    </script>
 </body>
 </html>
